@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 from scipy.stats import ks_2samp
@@ -60,10 +59,10 @@ def run_sweep(X_scaled, epsilons, clip_B=1.0):
     rows = []
 
     for eps in epsilons:
-        X_clean, X_dp = dp_laplace(X_scaled, eps, clip_B)
+        X_clean, laplace_dp = dp_laplace(X_scaled, eps, clip_B)
 
-        mse, mae, corr, ks, snr = utility_metrics(X_clean, X_dp)
-        link = linkage_rate(X_clean, X_dp)
+        mse, mae, corr, ks, snr = utility_metrics(X_clean, laplace_dp)
+        link = linkage_rate(X_clean, laplace_dp)
 
         rows.append({
             "epsilon": eps,
@@ -92,3 +91,14 @@ print(results)
 
 
 
+epsilon_final = 3.3
+
+X_clean, laplace_dp = dp_laplace(
+    X_scaled=X_scaled,
+    epsilon=epsilon_final,
+    clip_B=1.0
+)
+
+
+
+print("Laplace DP data shape:", laplace_dp.shape)
